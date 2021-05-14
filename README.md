@@ -8,6 +8,7 @@
 ### Command line
 1. Do `git clone <repo>` and `cd <repo>`
 2. `sbt run`
+3. to run tests do `sbt test`
 
 
 ## What I would do if I had more time
