@@ -74,7 +74,6 @@ class PaymentService(
     if (remainingAmount != 0.0) {
       val paymentDate = LocalDate.parse(payment.date, DateTimeFormatter.ISO_LOCAL_DATE)
       if (paymentDate.isAfter(startDate)
-      //&& startDate.plusDays(getDaysNumber(paymentPlan.installment_frequency)).isAfter(paymentDate)
       ) {
         Some(startDate.plusDays(getDaysNumber(paymentPlan.installment_frequency)).toString)
       } else None
@@ -91,11 +90,9 @@ class PaymentService(
     list.map(plan => plan.id).contains(payment.payment_plan_id)
 
   def getRemainingAmount(payment: Payment, planList: List[PaymentPlan]) = {
-    //    println(s"paymentMap $paymentMap payment ${payment.payment_plan_id} planList ${planList.map(el => el.id)}")
     if (!paymentMap.contains(payment.payment_plan_id) && planList.map(el => el.id).contains(payment.payment_plan_id)) {
       val remainingAmount: Double = planList.find(p => p.id == payment.payment_plan_id).get.amount_to_pay - payment.amount
       paymentMap += (payment.payment_plan_id -> remainingAmount)
-      //      println(s"paymentMap1 $paymentMap remaining $remainingAmount")
       remainingAmount
     } else if (paymentMap.contains(payment.payment_plan_id) && planList.map(el => el.id).contains(payment.payment_plan_id)) {
       val remainingAmount: Double = paymentMap(payment.payment_plan_id) - payment.amount
